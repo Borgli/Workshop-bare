@@ -97,7 +97,7 @@ def train_classification_block(model, base_model, train_generator, test_generato
     for layer in base_model.layers:
         layer.trainable = False
 
-    model.compile(optimizer="nadam", loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=hyperparameters["optimizer"](), loss='categorical_crossentropy', metrics=['accuracy'])
 
     callbacks_list = [
         ModelCheckpoint(best_model_path, monitor='val_acc', verbose=1, save_best_only=True),
@@ -138,7 +138,7 @@ def train_fine_tuning(model, train_generator, test_generator, log_dir, best_mode
     for layer in model.layers[hyperparameters["delimiting_layer"]:]:
         layer.trainable = True
 
-    model.compile(optimizer=hyperparameters["optimizer"], loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=hyperparameters["optimizer"](), loss='categorical_crossentropy', metrics=['accuracy'])
 
     # save weights of best training epoch: monitor either val_loss or val_acc
 
@@ -196,7 +196,7 @@ def train_network(dataset_path):
 
 tensorboard = None
 try:
-    tensorboard = subprocess.Popen(["tensorboard", "--host localhost", "--logdir=log"])
+    tensorboard = subprocess.Popen(["tensorboard", "--host localhost", "--logdir=logs"])
     train_network("cats-and-dogs-dataset")
     tensorboard.wait()
 finally:
