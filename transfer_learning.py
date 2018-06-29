@@ -146,7 +146,7 @@ def train_fine_tuning(model, train_generator, test_generator, log_dir, best_mode
         ModelCheckpoint(os.path.join(log_dir, "best_final_model.h5py"), monitor='val_acc',
                         verbose=1, save_best_only=True),
         EarlyStopping(monitor='val_acc', patience=5, verbose=1),
-        TensorBoard(log_dir=os.path.join(log_dir, 'tune'), histogram_freq=0, batch_size=hyperparameters["batch_size"],
+        TensorBoard(log_dir=log_dir, histogram_freq=0, batch_size=hyperparameters["batch_size"],
                     write_graph=True, write_grads=False, write_images=True),
         CSVLogger(filename=os.path.join(log_dir, "epoch_results_tune.csv"))
     ]
