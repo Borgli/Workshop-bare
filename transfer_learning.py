@@ -197,7 +197,7 @@ def train_network(dataset_path):
 tensorboard = None
 try:
     tensorboard = subprocess.Popen(["tensorboard", "--host localhost", "--logdir=logs"])
-    train_network("cats-and-dogs-dataset")
+    train_network("splitted-dataset")
     tensorboard.wait()
 finally:
     if tensorboard:
